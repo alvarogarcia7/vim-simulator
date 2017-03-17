@@ -55,13 +55,16 @@
   "about processing events"
   (facts
     "about insert"
-    (fact
-      "adds to the buffer"
-      (let [next-state (process
-                         {:buffer ["" ""]
-                          :cursor {:x 0 :y 0}}
-                         {:vim-simulator/event "iHELLO^"})]
-        (:buffer next-state) => ["HELLO" ""]))))
+    (let [next-state (process
+                       {:buffer ["" ""]
+                        :cursor {:x 0 :y 0}}
+                       {:vim-simulator/event "AHELLO^"})]
+      (fact
+        "adds to the buffer"
+        (:buffer next-state) => ["HELLO" ""])
+      (fact
+        "modifies the cursor"
+        (:cursor next-state) => {:x 5 :y 0}))))
 
 ;; how to use
 ;; (reduce (fn [acc ele] (process acc ele)) state [event-append-end-of-line event-insert])
