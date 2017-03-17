@@ -48,3 +48,6 @@
     event
     to-command
     (apply-to state)))
+
+;; how to use
+;; (reduce (fn [acc ele] (process acc ele)) state [event-append-end-of-line event-insert])
