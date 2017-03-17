@@ -26,8 +26,8 @@
     (let [x (get-in state [:cursor :x])
           y (get-in state [:cursor :y])
           line (get-in state [:buffer y])
-          chunks (map #(apply str %) (split-at x line))
-          new-line (str (first chunks) (:vim-simulator/payload command) (second chunks))]
+          [pre post] (map #(apply str %) (split-at x line))
+          new-line (str pre (:vim-simulator/payload command) post)]
       (assoc-in state [:buffer y] new-line))))
 
 
