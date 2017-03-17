@@ -29,16 +29,17 @@
   [state command]
   (let [x (get-in state [:cursor :x])
         y (get-in state [:cursor :y])
-        line (get-in state [:buffer y])]
+        line (get-in state [:buffer y])
+        replace-in (fn [line-number new-line] (assoc-in state [:buffer line-number] new-line))]
     (case (:vim-simulator/command command)
       :vim-simulator/insert
       (let [[pre post] (map #(apply str %) (split-at x line))
             new-line (str pre (:vim-simulator/payload command) post)]
-        (assoc-in state [:buffer y] new-line))
+        (replace-in y new-line))
 
       :vim-simulator/append-at-end
       (let [new-line (str line (:vim-simulator/payload command))]
-        (assoc-in state [:buffer y] new-line)))))
+        (replace-in y new-line)))))
 
 
 (defn
