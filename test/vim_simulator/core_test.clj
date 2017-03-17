@@ -18,11 +18,10 @@
    (letfn [(extract-payload
              [description]
              (apply str (butlast (rest description))))]
-     (case (first (:vim-simulator/event event))
-       \i {:vim-simulator/command :vim-simulator/insert
-           :vim-simulator/payload (extract-payload (:vim-simulator/event event))}
-       \A {:vim-simulator/command :vim-simulator/append-at-end
-           :vim-simulator/payload (extract-payload (:vim-simulator/event event))}))))
+      {:vim-simulator/command (case (first (:vim-simulator/event event))
+                                \i :vim-simulator/insert
+                                \A :vim-simulator/append-at-end)
+       :vim-simulator/payload (extract-payload (:vim-simulator/event event))})))
 
 (defn
   apply-to
