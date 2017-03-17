@@ -3,7 +3,7 @@
             [vim-simulator.core :refer :all]))
 
 (def state
-  {:buffer [""]
+  {:buffer ["0123456" "1234567"]
    :cursor {:x 0 :y 0}})
 
 (def event-insert
