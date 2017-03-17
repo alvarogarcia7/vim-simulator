@@ -4,7 +4,7 @@
 
 (def state
   {:buffer ["0123456" "1234567"]
-   :cursor {:x 0 :y 0}})
+   :cursor {:x 2 :y 0}})
 
 (def event-insert
   {:vim-simulator/event "iHELLO^"})
@@ -23,9 +23,11 @@
   [state command]
   (case (:vim-simulator/command command)
     :vim-simulator/insert
-    (let [y (get-in state [:cursor :y])
+    (let [x (get-in state [:cursor :x])
+          y (get-in state [:cursor :y])
           line (get-in state [:buffer y])
-          new-line (str line (:vim-simulator/payload command))]
+          chunks (map #(apply str %) (split-at x line))
+          new-line (str (first chunks) (:vim-simulator/payload command) (second chunks))]
       (assoc-in state [:buffer y] new-line))))
 
 
