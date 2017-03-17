@@ -26,7 +26,7 @@
     (let [y (get-in state [:cursor :y])
           line (get-in state [:buffer y])
           new-line (str line (:vim-simulator/payload command))]
-      (assoc-in state [:buffer] new-line))))
+      (assoc-in state [:buffer y] new-line))))
 
 
 (defn
