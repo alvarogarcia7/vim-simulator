@@ -1,6 +1,7 @@
 (ns vim-simulator.core-test
   (:require [clojure.test :refer :all]
-            [vim-simulator.core :refer :all]))
+            [vim-simulator.core :refer :all]
+            [midje.sweet :refer :all]))
 
 (def state
   {:buffer ["0123456" "1234567"]
@@ -49,6 +50,14 @@
     event
     to-command
     (apply-to state)))
+
+(facts "about processing events"
+       (facts "about insert"
+              (fact "adds to the buffer"
+                    (:buffer (process
+                               {:buffer ["" ""]
+                                :cursor {:x 0 :y 0}}
+                               {:vim-simulator/event "iHELLO^"})) => ["HELLO" ""])))
 
 ;; how to use
 ;; (reduce (fn [acc ele] (process acc ele)) state [event-append-end-of-line event-insert])
