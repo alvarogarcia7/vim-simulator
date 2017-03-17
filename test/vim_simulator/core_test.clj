@@ -13,7 +13,7 @@
   to-command
   [event]
   {:vim-simulator/command :vim-simulator/insert
-   :vim-simulator/payload "HELLO"})
+   :vim-simulator/payload (apply str (butlast (rest (:vim-simulator/event event))))})
 
 (defn
   apply-to
