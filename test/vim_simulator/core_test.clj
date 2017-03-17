@@ -19,10 +19,10 @@
    (letfn [(extract-payload
              [description]
              (apply str (butlast (rest description))))]
-      {:vim-simulator/command (case (first (:vim-simulator/event event))
-                                \i :vim-simulator/insert
-                                \A :vim-simulator/append-at-end)
-       :vim-simulator/payload (extract-payload (:vim-simulator/event event))})))
+     {:vim-simulator/command (case (first (:vim-simulator/event event))
+                               \i :vim-simulator/insert
+                               \A :vim-simulator/append-at-end)
+      :vim-simulator/payload (extract-payload (:vim-simulator/event event))})))
 
 (defn
   apply-to
@@ -51,13 +51,16 @@
     to-command
     (apply-to state)))
 
-(facts "about processing events"
-       (facts "about insert"
-              (fact "adds to the buffer"
-                    (:buffer (process
-                               {:buffer ["" ""]
-                                :cursor {:x 0 :y 0}}
-                               {:vim-simulator/event "iHELLO^"})) => ["HELLO" ""])))
+(facts
+  "about processing events"
+  (facts
+    "about insert"
+    (fact
+      "adds to the buffer"
+      (:buffer (process
+                 {:buffer ["" ""]
+                  :cursor {:x 0 :y 0}}
+                 {:vim-simulator/event "iHELLO^"})) => ["HELLO" ""])))
 
 ;; how to use
 ;; (reduce (fn [acc ele] (process acc ele)) state [event-append-end-of-line event-insert])
