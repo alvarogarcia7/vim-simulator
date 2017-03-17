@@ -51,20 +51,29 @@
     to-command
     (apply-to state)))
 
+(defn simulate
+  [description state event expected]
+  (let [next-state (process state {:vim-simulator/event event})]
+    (facts
+      description
+      (fact
+        "adds to the buffer"
+        (:buffer next-state) => (:buffer expected))
+      (fact
+        "modifies the cursor"
+        (:cursor next-state) => (:cursor expected)))))
+
 (facts
   "about processing events"
   (facts
-    "about insert"
-    (let [next-state (process
-                       {:buffer ["" ""]
-                        :cursor {:x 0 :y 0}}
-                       {:vim-simulator/event "AHELLO^"})]
-      (fact
-        "adds to the buffer"
-        (:buffer next-state) => ["HELLO" ""])
-      (fact
-        "modifies the cursor"
-        (:cursor next-state) => {:x 5 :y 0}))))
+    "about append"
+    (simulate
+      "append on an empty buffer"
+      {:buffer ["" ""]
+       :cursor {:x 0 :y 0}}
+      "AHELLO^"
+      {:buffer ["HELLO" ""]
+       :cursor {:x 5 :y 0}})))
 
 ;; how to use
 ;; (reduce (fn [acc ele] (process acc ele)) state [event-append-end-of-line event-insert])
