@@ -86,7 +86,8 @@
                  {:x 0 :y 0})
       "AHELLO^"
       (state-gen ["1234HELLO" "aaaa"]
-                 {:x 9 :y 0}))))
+                 {:x 9 :y 0}))
+    ))
 
 ;; how to use
 ;; (reduce (fn [acc ele] (process acc ele)) state [event-append-end-of-line event-insert])
