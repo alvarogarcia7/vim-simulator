@@ -12,11 +12,11 @@
 (defn
   to-command
   ([event]
-   (letfn [(remove-first-and-last
+   (letfn [(extract-payload
             [description]
             (apply str (butlast (rest description))))]
     {:vim-simulator/command :vim-simulator/insert
-     :vim-simulator/payload (remove-first-and-last (:vim-simulator/event event))})))
+     :vim-simulator/payload (extract-payload (:vim-simulator/event event))})))
 
 (defn
   apply-to
