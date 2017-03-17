@@ -11,9 +11,12 @@
 
 (defn
   to-command
-  [event]
-  {:vim-simulator/command :vim-simulator/insert
-   :vim-simulator/payload (apply str (butlast (rest (:vim-simulator/event event))))})
+  ([event]
+   (letfn [(remove-first-and-last
+            [description]
+            (apply str (butlast (rest description))))]
+    {:vim-simulator/command :vim-simulator/insert
+     :vim-simulator/payload (remove-first-and-last (:vim-simulator/event event))})))
 
 (defn
   apply-to
