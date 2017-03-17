@@ -63,17 +63,23 @@
         "modifies the cursor"
         (:cursor next-state) => (:cursor expected)))))
 
+(defn
+  state-gen
+  [buffer cursor]
+  {:buffer buffer
+   :cursor cursor})
+
 (facts
   "about processing events"
   (facts
     "about append"
     (simulate
       "append on an empty buffer"
-      {:buffer ["" ""]
-       :cursor {:x 0 :y 0}}
+      (state-gen ["" ""]
+                 {:x 0 :y 0})
       "AHELLO^"
-      {:buffer ["HELLO" ""]
-       :cursor {:x 5 :y 0}})))
+      (state-gen ["HELLO" ""]
+                 {:x 5 :y 0}))))
 
 ;; how to use
 ;; (reduce (fn [acc ele] (process acc ele)) state [event-append-end-of-line event-insert])
