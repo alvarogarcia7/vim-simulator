@@ -27,21 +27,18 @@
 (defn
   apply-to
   [state command]
-  (case (:vim-simulator/command command)
-    :vim-simulator/insert
-    (let [x (get-in state [:cursor :x])
-          y (get-in state [:cursor :y])
-          line (get-in state [:buffer y])
-          [pre post] (map #(apply str %) (split-at x line))
-          new-line (str pre (:vim-simulator/payload command) post)]
-      (assoc-in state [:buffer y] new-line))
+  (let [x (get-in state [:cursor :x])
+        y (get-in state [:cursor :y])
+        line (get-in state [:buffer y])]
+    (case (:vim-simulator/command command)
+      :vim-simulator/insert
+      (let [[pre post] (map #(apply str %) (split-at x line))
+            new-line (str pre (:vim-simulator/payload command) post)]
+        (assoc-in state [:buffer y] new-line))
 
-
-    :vim-simulator/append-at-end
-    (let [y (get-in state [:cursor :y])
-          line (get-in state [:buffer y])
-          new-line (str line (:vim-simulator/payload command))]
-      (assoc-in state [:buffer y] new-line))))
+      :vim-simulator/append-at-end
+      (let [new-line (str line (:vim-simulator/payload command))]
+        (assoc-in state [:buffer y] new-line)))))
 
 
 (defn
