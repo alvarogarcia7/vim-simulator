@@ -9,6 +9,9 @@
 (def event-insert
   {:vim-simulator/event "iHELLO^"})
 
+(def event-append
+  {:vim-simulator/event "A at the end^"})
+
 (defn
   to-command
   ([event]
