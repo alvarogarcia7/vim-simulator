@@ -79,7 +79,14 @@
                  {:x 0 :y 0})
       "AHELLO^"
       (state-gen ["HELLO" ""]
-                 {:x 5 :y 0}))))
+                 {:x 5 :y 0}))
+    (simulate
+      "append on a full buffer"
+      (state-gen ["1234" "aaaa"]
+                 {:x 0 :y 0})
+      "AHELLO^"
+      (state-gen ["1234HELLO" "aaaa"]
+                 {:x 9 :y 0}))))
 
 ;; how to use
 ;; (reduce (fn [acc ele] (process acc ele)) state [event-append-end-of-line event-insert])
