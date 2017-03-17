@@ -23,7 +23,8 @@
   [state command]
   (case (:vim-simulator/command command)
     :vim-simulator/insert
-    (let [line (nth (get state :buffer) (:y (get state :cursor)))
+    (let [y (get-in state [:cursor :y])
+          line (get-in state [:buffer y])
           new-line (str line (:vim-simulator/payload command))]
       (assoc-in state [:buffer] new-line))))
 
