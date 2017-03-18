@@ -63,6 +63,11 @@
     :unit
     "more than one element"
     (pairs [1 2 3]) => [[1 2] [2 3]]
+    )
+  (fact
+    :unit
+    "GOTCHA - not working for one element"
+    (pairs [1]) => []
     ))
 
 
