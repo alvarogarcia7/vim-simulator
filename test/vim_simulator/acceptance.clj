@@ -46,4 +46,13 @@
                  {:x 0 :y 0})
       ["AHELLO^" "r"]
       (state-gen ["HELLOHELLO" ""]
-                 {:x 10 :y 0}))))
+                 {:x 10 :y 0})))
+  (facts
+    "about undo"
+    (simulate
+      "append on an empty buffer"
+      (state-gen ["" ""]
+                 {:x 0 :y 0})
+      ["AHELLO^" "u"]
+      (state-gen ["" ""]
+                 {:x 0 :y 0}))))
