@@ -70,10 +70,10 @@
 (defn
   apply-undo
   [events]
-  (reduce (fn [acc ele] (if (undo? ele)
-                          (butlast acc)
-                          (conj acc ele)))
-          [] events))
+  (letfn [(discard-if-undo [acc ele] (if (undo? ele)
+                                       (butlast acc)
+                                       (conj acc ele)))]
+    (reduce discard-if-undo [] events)))
 
 (defn
   process-multiple

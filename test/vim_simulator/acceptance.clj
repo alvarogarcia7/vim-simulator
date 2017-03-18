@@ -45,7 +45,6 @@
       (state-gen ["" ""]
                  {:x 0 :y 0})
       ["AHELLO^" "u"]
-
       (state-gen ["" ""]
                  {:x 0 :y 0}))))
 ;; equivalent
