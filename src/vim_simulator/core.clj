@@ -66,11 +66,12 @@
 
 (defn
   duplicate-if-redo
-  [pairs]
+  [events]
   (letfn [(redo? [event]
             (= (:vim-simulator/command event) :vim-simulator/redo))]
-    (into [] (flat1 (map
-                      (fn [[p1 p2]] (if (redo? p2) [p1 p1] (if (redo? p1) [p2] [p1 p2]))) pairs)))))
+    (let [pairs (pairs events)]
+      (into [] (flat1 (map
+                        (fn [[p1 p2]] (if (redo? p2) [p1 p1] (if (redo? p1) [p2] [p1 p2]))) pairs))))))
 
 (defn
   apply-undo
@@ -82,7 +83,7 @@
               (butlast acc)
               (conj acc ele)))]
     (let [e1 (reduce discard-if-undo [] events)]
-      (if (> (count e1) 1) (duplicate-if-redo (pairs e1)) e1))))
+      (if (> (count e1) 1) (duplicate-if-redo e1) e1))))
 
 (defn
   process-multiple
