@@ -77,7 +77,7 @@
       (into [] (flat1 (remove-or-duplicate-redo pairs))))))
 
 (defn
-  apply-undo
+  apply-event-altering-events
   [events]
   (letfn [(undo? [event]
             (= (:vim-simulator/command event) :vim-simulator/undo))
@@ -91,5 +91,5 @@
 (defn
   process-multiple
   [state events]
-  (let [modified-events (apply-undo (map to-command events))]
+  (let [modified-events (apply-event-altering-events (map to-command events))]
     (reduce process-single state modified-events)))
