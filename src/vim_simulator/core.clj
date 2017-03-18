@@ -13,20 +13,17 @@
   {:vim-simulator/command :vim-simulator/redo
    :vim-simulator/payload (rest (:vim-simulator/event event))})
 
-(defmethod command-by \i [event]
-  (letfn [(extract-payload
-            [description]
-            (apply str (butlast (rest description))))]
+(defn extract-payload
+  [description]
+  (apply str (butlast (rest description))))
 
+(defmethod command-by \i [event]
     {:vim-simulator/command :vim-simulator/insert
-     :vim-simulator/payload (extract-payload (:vim-simulator/event event))}))
+     :vim-simulator/payload (extract-payload (:vim-simulator/event event))})
 
 (defmethod command-by \A [event]
-  (letfn [(extract-payload
-            [description]
-            (apply str (butlast (rest description))))]
     {:vim-simulator/command :vim-simulator/append-at-end
-     :vim-simulator/payload (extract-payload (:vim-simulator/event event))}))
+     :vim-simulator/payload (extract-payload (:vim-simulator/event event))})
 
 (defn
   to-command
