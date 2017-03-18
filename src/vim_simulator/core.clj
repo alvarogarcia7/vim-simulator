@@ -60,19 +60,16 @@
   {:vim-simulator/event description})
 
 
-;;undo
-(defn
-  undo?
-  [event]
-  (= (:vim-simulator/command event) :vim-simulator/undo))
-
-
 (defn
   apply-undo
   [events]
-  (letfn [(discard-if-undo [acc ele] (if (undo? ele)
-                                       (butlast acc)
-                                       (conj acc ele)))]
+  (letfn [
+          (undo? [event]
+            (= (:vim-simulator/command event) :vim-simulator/undo))
+          (discard-if-undo [acc ele]
+            (if (undo? ele)
+              (butlast acc)
+              (conj acc ele)))]
     (reduce discard-if-undo [] events)))
 
 (defn
