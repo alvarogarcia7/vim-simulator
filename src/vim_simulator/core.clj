@@ -68,10 +68,12 @@
   duplicate-if-redo
   [events]
   (letfn [(redo? [event]
-            (= (:vim-simulator/command event) :vim-simulator/redo))]
-    (let [pairs (pairs events)
-          remove-or-duplicate-redo (fn [pairs] (map
-                              (fn [[p1 p2]] (if (redo? p2) [p1 p1] (if (redo? p1) [p2] [p1 p2]))) pairs))]
+            (= (:vim-simulator/command event) :vim-simulator/redo))
+          (remove-or-duplicate-redo
+            [pairs]
+            (map
+              (fn [[p1 p2]] (if (redo? p2) [p1 p1] (if (redo? p1) [p2] [p1 p2]))) pairs))]
+    (let [pairs (pairs events)]
       (into [] (flat1 (remove-or-duplicate-redo pairs))))))
 
 (defn
