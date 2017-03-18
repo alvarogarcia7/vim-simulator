@@ -100,5 +100,7 @@
 (defn
   process-multiple
   [state events]
-  (let [modified-events (apply-event-altering-events (map command events))]
-    (reduce process-single state modified-events)))
+  (->> events
+       (map command)
+       apply-event-altering-events
+       (reduce process-single state)))
