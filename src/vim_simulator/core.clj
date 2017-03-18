@@ -45,11 +45,6 @@
 
 
 (defn
-  process-single
-  [state event]
-    (apply-to state event))
-
-(defn
   state-gen
   [buffer cursor]
   {:buffer buffer
@@ -91,6 +86,11 @@
               (conj acc ele)))]
     (let [e1 (reduce discard-if-undo [] events)]
       (if (> (count e1) 1) (duplicate-if-redo e1) e1))))
+
+(defn
+  process-single
+  [state event]
+  (apply-to state event))
 
 (defn
   process-multiple
