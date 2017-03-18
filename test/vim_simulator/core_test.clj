@@ -61,7 +61,8 @@
         (:buffer next-state) => (:buffer expected))
       (fact
         "modifies the cursor"
-        (:cursor next-state) => (:cursor expected)))))
+        (:cursor next-state) => (:cursor expected)))
+    next-state))
 
 (defn
   state-gen
@@ -89,6 +90,22 @@
                  {:x 9 :y 0}))
     ))
 
+(facts
+  "acceptance tests about events that affect events"
+  (facts
+    "about undo"
+    (simulate "undo"
+      (simulate
+        "append on an empty buffer"
+        (state-gen ["" ""]
+                   {:x 0 :y 0})
+        "AHELLO^"
+        (state-gen ["HELLO" ""]
+                   {:x 5 :y 0}))
+      "u"
+      (state-gen ["" ""]
+                 {:x 0 :y 0}))
+    ))
 ;; how to use
 ;; (reduce (fn [acc ele] (process acc ele)) state [event-append-end-of-line event-insert])
 ;; equivalent
