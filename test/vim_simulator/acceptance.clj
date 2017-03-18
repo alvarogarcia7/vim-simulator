@@ -47,5 +47,3 @@
       ["AHELLO^" "r"]
       (state-gen ["HELLOHELLO" ""]
                  {:x 10 :y 0}))))
-;; equivalent
-;; (reduce process state [event-append-end-of-line event-insert])
