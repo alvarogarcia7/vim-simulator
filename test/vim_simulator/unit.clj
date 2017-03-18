@@ -1,6 +1,7 @@
 (ns vim-simulator.unit
   (:require [clojure.test :refer :all]
             [vim-simulator.core :refer :all]
+            [vim-simulator.common :refer :all]
             [midje.sweet :refer :all]))
 
 (def state

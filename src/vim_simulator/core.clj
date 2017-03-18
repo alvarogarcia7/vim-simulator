@@ -43,16 +43,6 @@
       (let [new-line (str line (:vim-simulator/payload command))]
         (replace-cursor (count new-line) (replace-in-buffer y new-line state))))))
 
-
-(defn
-  state-gen
-  [buffer cursor]
-  {:buffer buffer
-   :cursor cursor})
-
-(defn event [description]
-  {:vim-simulator/event description})
-
 (defn
   pairs
   [coll]
