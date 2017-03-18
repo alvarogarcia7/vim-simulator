@@ -59,7 +59,7 @@
     (let [e1 (reduce discard-if-undo [] events)]
       (if (> (count e1) 1) (duplicate-if-redo e1) e1))))
 
-(defn
+(defn-
   process-single
   [state command]
   (let [x (get-in state [:cursor :x])
