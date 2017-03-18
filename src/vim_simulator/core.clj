@@ -75,8 +75,7 @@
 (defn
   apply-undo
   [events]
-  (letfn [
-          (undo? [event]
+  (letfn [(undo? [event]
             (= (:vim-simulator/command event) :vim-simulator/undo))
           (discard-if-undo [acc ele]
             (if (undo? ele)
