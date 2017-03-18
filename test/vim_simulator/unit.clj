@@ -69,9 +69,3 @@
     "GOTCHA - not working for one element"
     (pairs [1]) => []
     ))
-
-
-;; how to use
-;; (reduce (fn [acc ele] (process acc ele)) state [event-append-end-of-line event-insert])
-;; equivalent
-;; (reduce process state [event-append-end-of-line event-insert])
