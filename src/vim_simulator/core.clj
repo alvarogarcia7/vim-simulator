@@ -9,6 +9,10 @@
   {:vim-simulator/command :vim-simulator/undo
    :vim-simulator/payload (rest (:vim-simulator/event event))})
 
+(defmethod command-by \r [event]
+  {:vim-simulator/command :vim-simulator/redo
+   :vim-simulator/payload (rest (:vim-simulator/event event))})
+
 (defn
   to-command
   [event]
@@ -16,8 +20,7 @@
     (if (= \u first-letter)
       (command-by event)
       (if (= \r first-letter)
-        {:vim-simulator/command :vim-simulator/redo
-         :vim-simulator/payload (rest (:vim-simulator/event event))}
+        (command-by event)
         (letfn [(extract-payload
                   [description]
                   (apply str (butlast (rest description))))]
