@@ -12,8 +12,6 @@
 (def initial-state
   (state-gen [""] {:x 0 :y 0}))
 
-;; Sample events
-
 (def events
   {:undo   (event "u")
    :insert (event "iHELLO^")
