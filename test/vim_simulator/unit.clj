@@ -3,6 +3,8 @@
             [vim-simulator.core :refer :all]
             [midje.sweet :refer :all]))
 
+;; States
+
 (def state
   (state-gen ["0123456" "1234567"]
    {:x 2 :y 0}))
@@ -12,6 +14,8 @@
 
 (defn event [description]
   {:vim-simulator/event description})
+
+;; Sample events
 
 (def event-insert
   (event "iHELLO^"))
