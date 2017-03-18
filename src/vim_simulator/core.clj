@@ -35,7 +35,7 @@
   [coll]
   (reduce concat coll))
 
-(defn
+(defn-
   duplicate-if-redo
   [events]
   (letfn [(redo? [event]
