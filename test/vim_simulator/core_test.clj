@@ -106,6 +106,16 @@
       (state-gen ["" ""]
                  {:x 0 :y 0}))
     ))
+
+
+(facts
+  "unit tests about parsing events"
+  (fact
+    "about undo"
+    (to-command "u") => {:vim-simulator/command :vim-simulator/undo
+                         :vim-simulator/payload ""}
+    ))
+
 ;; how to use
 ;; (reduce (fn [acc ele] (process acc ele)) state [event-append-end-of-line event-insert])
 ;; equivalent
