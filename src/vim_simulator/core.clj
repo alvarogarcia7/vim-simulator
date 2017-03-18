@@ -18,12 +18,12 @@
   (apply str (butlast (rest description))))
 
 (defmethod command \i [event]
-    {:vim-simulator/command :vim-simulator/insert
-     :vim-simulator/payload (extract-payload (:vim-simulator/event event))})
+  {:vim-simulator/command :vim-simulator/insert
+   :vim-simulator/payload (extract-payload (:vim-simulator/event event))})
 
 (defmethod command \A [event]
-    {:vim-simulator/command :vim-simulator/append-at-end
-     :vim-simulator/payload (extract-payload (:vim-simulator/event event))})
+  {:vim-simulator/command :vim-simulator/append-at-end
+   :vim-simulator/payload (extract-payload (:vim-simulator/event event))})
 
 (defn
   pairs
