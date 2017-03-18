@@ -55,3 +55,28 @@
   [buffer cursor]
   {:buffer buffer
    :cursor cursor})
+
+(defn event [description]
+  {:vim-simulator/event description})
+
+
+;;undo
+(defn
+  undo?
+  [event]
+  (= (:vim-simulator/command event) :vim-simulator/undo))
+
+
+(defn
+  apply-undo
+  [events]
+  (reduce (fn [acc ele] (if (undo? ele)
+                          (butlast acc)
+                          (conj acc ele)))
+          [] events))
+
+(defn
+  process-multiple
+  [state events]
+  (let [modified-events (apply-undo (map to-command events))]
+    (reduce process-single state modified-events)))
