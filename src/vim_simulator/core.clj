@@ -2,14 +2,14 @@
   (:gen-class))
 
 (defmulti
-  command-by
+  command
   (fn [description] (first (:vim-simulator/event description))))
 
-(defmethod command-by \u [event]
+(defmethod command \u [event]
   {:vim-simulator/command :vim-simulator/undo
    :vim-simulator/payload (rest (:vim-simulator/event event))})
 
-(defmethod command-by \r [event]
+(defmethod command \r [event]
   {:vim-simulator/command :vim-simulator/redo
    :vim-simulator/payload (rest (:vim-simulator/event event))})
 
@@ -17,18 +17,13 @@
   [description]
   (apply str (butlast (rest description))))
 
-(defmethod command-by \i [event]
+(defmethod command \i [event]
     {:vim-simulator/command :vim-simulator/insert
      :vim-simulator/payload (extract-payload (:vim-simulator/event event))})
 
-(defmethod command-by \A [event]
+(defmethod command \A [event]
     {:vim-simulator/command :vim-simulator/append-at-end
      :vim-simulator/payload (extract-payload (:vim-simulator/event event))})
-
-(defn
-  command
-  [event]
-  (command-by event))
 
 (defn
   apply-to
