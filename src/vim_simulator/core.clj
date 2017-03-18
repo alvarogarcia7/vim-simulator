@@ -71,7 +71,7 @@
 (defn
   flat1
   [coll]
-  (reduce concat [] coll))
+  (reduce concat coll))
 
 (defn
   duplicate-if-redo
