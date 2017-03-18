@@ -26,7 +26,7 @@
      :vim-simulator/payload (extract-payload (:vim-simulator/event event))})
 
 (defn
-  to-command
+  command
   [event]
   (command-by event))
 
@@ -100,5 +100,5 @@
 (defn
   process-multiple
   [state events]
-  (let [modified-events (apply-event-altering-events (map to-command events))]
+  (let [modified-events (apply-event-altering-events (map command events))]
     (reduce process-single state modified-events)))

@@ -17,15 +17,15 @@
    :redo   (event "r")})
 
 (def commands
-  {:insert (to-command (:insert events))
-   :append (to-command (:append events))
+  {:insert (command (:insert events))
+   :append (command (:append events))
    })
 
 (facts
   "unit tests about parsing events"
   (fact :unit
         "about undo"
-        (to-command (:undo events))
+        (command (:undo events))
         => {:vim-simulator/command :vim-simulator/undo
                                     :vim-simulator/payload ()}
         ))
