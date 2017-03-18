@@ -70,7 +70,7 @@
    :cursor cursor})
 
 (facts
-  "about processing events"
+  "acceptance tests about processing events"
   (facts
     "about append"
     (simulate
