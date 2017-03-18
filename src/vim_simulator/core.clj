@@ -28,13 +28,7 @@
 (defn
   to-command
   [event]
-  (let [first-letter (first (:vim-simulator/event event))]
-    (if (= \u first-letter)
-      (command-by event)
-      (if (= \r first-letter)
-        (command-by event)
-        (command-by event)
-        ))))
+  (command-by event))
 
 (defn
   apply-to
