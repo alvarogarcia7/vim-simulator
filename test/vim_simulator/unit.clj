@@ -61,7 +61,7 @@
   "generate pairs"
   (fact
     :unit
-    ""
+    "more than one element"
     (pairs [1 2 3]) => [[1 2] [2 3]]
     ))
 
