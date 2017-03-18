@@ -4,8 +4,11 @@
             [midje.sweet :refer :all]))
 
 (def state
-  {:buffer ["0123456" "1234567"]
-   :cursor {:x 2 :y 0}})
+  (state-gen ["0123456" "1234567"]
+   {:x 2 :y 0}))
+
+(def initial-state
+  (state-gen [""] {:x 0 :y 0}))
 
 (defn event [description]
   {:vim-simulator/event description})
@@ -18,9 +21,6 @@
 
 (def event-append
   (event "A at the end^"))
-
-(def initial-state
-  (state-gen [""] {:x 0 :y 0}))
 
 
 (defn
