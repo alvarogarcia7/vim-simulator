@@ -14,27 +14,22 @@
 
 ;; Sample events
 
-(def event-insert
-  (event "iHELLO^"))
-
-(def event-undo
-  (event "u"))
-
-(def event-append
-  (event "A at the end^"))
+(def events
+  {:undo   (event "u")
+   :insert (event "iHELLO^")
+   :append (event "A at the end^")
+   :redo   (event "r")})
 
 (def commands
-  {:undo   (to-command event-undo)
-   :insert (to-command event-insert)
-   :append (to-command event-append)
-   :redo   (to-command (event "r"))})
-
+  {:insert (to-command (:insert events))
+   :append (to-command (:append events))
+   })
 
 (facts
   "unit tests about parsing events"
   (fact :unit
         "about undo"
-        (to-command event-undo) => {:vim-simulator/command :vim-simulator/undo
+        (to-command (:undo events)) => {:vim-simulator/command :vim-simulator/undo
                                     :vim-simulator/payload ()}
         ))
 
