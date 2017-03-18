@@ -26,11 +26,32 @@
 (def event-append
   (event "A at the end^"))
 
+(def commands
+  {:undo   (to-command event-undo)
+   :insert (to-command event-insert)
+   :append (to-command event-append)})
+
+
+;;undo
+(defn
+  undo?
+  [event]
+  (= (:vim-simulator/command event) :vim-simulator/undo))
+
+
+(defn
+  apply-undo
+  [events]
+  (reduce (fn [acc ele] (if (undo? ele)
+                          (butlast acc)
+                          (conj acc ele)))
+          [] events))
 
 (defn
   process-multiple
   [state events]
-  (reduce process state events))
+  (let [modified-events (apply-undo (map to-command events))]
+    (reduce process-single state modified-events)))
 
 
 (facts

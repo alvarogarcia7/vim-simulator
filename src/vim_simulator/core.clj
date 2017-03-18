@@ -46,6 +46,11 @@
     (apply-to state)))
 
 (defn
+  process-single
+  [state event]
+    (apply-to state event))
+
+(defn
   state-gen
   [buffer cursor]
   {:buffer buffer
