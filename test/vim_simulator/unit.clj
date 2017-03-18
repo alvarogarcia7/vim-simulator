@@ -1,4 +1,4 @@
-(ns vim-simulator.core-test
+(ns vim-simulator.unit
   (:require [clojure.test :refer :all]
             [vim-simulator.core :refer :all]
             [midje.sweet :refer :all]))
