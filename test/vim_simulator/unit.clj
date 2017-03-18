@@ -7,20 +7,21 @@
   {:buffer ["0123456" "1234567"]
    :cursor {:x 2 :y 0}})
 
+(defn event [description]
+  {:vim-simulator/event description})
+
 (def event-insert
-  {:vim-simulator/event "iHELLO^"})
+  (event "iHELLO^"))
 
 (def event-undo
-  {:vim-simulator/event "u"})
+  (event "u"))
 
 (def event-append
-  {:vim-simulator/event "A at the end^"})
+  (event "A at the end^"))
 
 (def initial-state
   (state-gen [""] {:x 0 :y 0}))
 
-(defn event [description]
-  {:vim-simulator/event description})
 
 (defn
   process-multiple
