@@ -1,14 +1,20 @@
 (ns vim-simulator.core
   (:gen-class))
 
+(defmulti
+  command-by
+  (fn [description] (first (:vim-simulator/event description))))
+
+(defmethod command-by \u [event]
+  {:vim-simulator/command :vim-simulator/undo
+   :vim-simulator/payload (rest (:vim-simulator/event event))})
 
 (defn
   to-command
   [event]
   (let [first-letter (first (:vim-simulator/event event))]
     (if (= \u first-letter)
-      {:vim-simulator/command :vim-simulator/undo
-       :vim-simulator/payload (rest (:vim-simulator/event event))}
+      (command-by event)
       (if (= \r first-letter)
         {:vim-simulator/command :vim-simulator/redo
          :vim-simulator/payload (rest (:vim-simulator/event event))}
