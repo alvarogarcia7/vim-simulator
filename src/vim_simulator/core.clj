@@ -30,7 +30,7 @@
   [coll]
   (first (reduce (fn [[acc prev] ele] [(conj acc [prev ele]) ele]) [[] (first coll)] (rest coll))))
 
-(defn
+(defn-
   flat1
   [coll]
   (reduce concat coll))
