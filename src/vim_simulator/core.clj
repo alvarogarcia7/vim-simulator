@@ -9,14 +9,17 @@
     (if (= \u first-letter)
       {:vim-simulator/command :vim-simulator/undo
        :vim-simulator/payload (rest (:vim-simulator/event event))}
-      (letfn [(extract-payload
-                [description]
-                (apply str (butlast (rest description))))]
+      (if (= \r first-letter)
+        {:vim-simulator/command :vim-simulator/redo
+         :vim-simulator/payload (rest (:vim-simulator/event event))}
+        (letfn [(extract-payload
+                  [description]
+                  (apply str (butlast (rest description))))]
 
-        {:vim-simulator/command (case first-letter
-                                  \i :vim-simulator/insert
-                                  \A :vim-simulator/append-at-end)
-         :vim-simulator/payload (extract-payload (:vim-simulator/event event))}))))
+          {:vim-simulator/command (case first-letter
+                                    \i :vim-simulator/insert
+                                    \A :vim-simulator/append-at-end)
+           :vim-simulator/payload (extract-payload (:vim-simulator/event event))})))))
 
 (defn
   apply-to
@@ -38,14 +41,6 @@
 
 
 (defn
-  process
-  [state event]
-  (->>
-    event
-    to-command
-    (apply-to state)))
-
-(defn
   process-single
   [state event]
     (apply-to state event))
@@ -59,6 +54,23 @@
 (defn event [description]
   {:vim-simulator/event description})
 
+(defn
+  pairs
+  [coll]
+  (first (reduce (fn [[acc prev] ele] [(conj acc [prev ele]) ele]) [[] (first coll)] (rest coll))))
+
+(defn
+  flat1
+  [coll]
+  (reduce (fn [acc ele] (concat acc ele)) [] coll))
+
+(defn
+  duplicate-if-redo
+  [pairs]
+  (letfn [(redo? [event]
+            (= (:vim-simulator/command event) :vim-simulator/redo))]
+    (into [] (flat1 (map
+                      (fn [[p1 p2]] (if (redo? p2) [p1 p1] (if (redo? p1) [p2] [p1 p2]))) pairs)))))
 
 (defn
   apply-undo
@@ -70,7 +82,8 @@
             (if (undo? ele)
               (butlast acc)
               (conj acc ele)))]
-    (reduce discard-if-undo [] events)))
+    (let [e1 (reduce discard-if-undo [] events)]
+      (if (> (count e1) 1) (duplicate-if-redo (pairs e1)) e1))))
 
 (defn
   process-multiple

@@ -39,13 +39,13 @@
 (facts
   "acceptance tests about events that affect events"
   (facts
-    "about undo"
+    "about redo"
     (simulate
-      "append on an empty buffer"
+      "redo an insertion"
       (state-gen ["" ""]
                  {:x 0 :y 0})
-      ["AHELLO^" "u"]
-      (state-gen ["" ""]
-                 {:x 0 :y 0}))))
+      ["AHELLO^" "r"]
+      (state-gen ["HELLOHELLO" ""]
+                 {:x 10 :y 0}))))
 ;; equivalent
 ;; (reduce process state [event-append-end-of-line event-insert])

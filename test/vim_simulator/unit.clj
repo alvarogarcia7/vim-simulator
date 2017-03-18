@@ -26,7 +26,8 @@
 (def commands
   {:undo   (to-command event-undo)
    :insert (to-command event-insert)
-   :append (to-command event-append)})
+   :append (to-command event-append)
+   :redo (to-command (event "r"))})
 
 
 (facts
@@ -55,6 +56,14 @@
         => {:buffer [""], :cursor {:x 0, :y 0}}
 
         ))
+
+(facts
+  "generate pairs"
+  (fact
+    :unit
+    ""
+    (pairs [1 2 3]) => [[1 2] [2 3]]
+    ))
 
 
 ;; how to use
