@@ -47,7 +47,7 @@
     (let [pairs (pairs events)]
       (into [] (flat1 (remove-or-duplicate-redo pairs))))))
 
-(defn
+(defn-
   apply-event-altering-events
   [events]
   (letfn [(undo? [event]
