@@ -25,7 +25,8 @@
   "unit tests about parsing events"
   (fact :unit
         "about undo"
-        (to-command (:undo events)) => {:vim-simulator/command :vim-simulator/undo
+        (to-command (:undo events))
+        => {:vim-simulator/command :vim-simulator/undo
                                     :vim-simulator/payload ()}
         ))
 
