@@ -16,6 +16,9 @@
 (def event-append
   {:vim-simulator/event "A at the end^"})
 
+(def initial-state
+  (state-gen [""] {:x 0 :y 0}))
+
 (defn event [description]
   {:vim-simulator/event description})
 
@@ -36,11 +39,12 @@
 (facts
   "processing multiple events"
   (fact :unit
-    "example 1"
-    (process-multiple (state-gen [""] {:x 0 :y 0}) [(event "AHELLO^") (event "A BYE!^")] ) => {:buffer ["HELLO BYE!"]
-                                                                               :cursor {:x 10 :y 0}}
-
-    ))
+        "example 1"
+        (process-multiple
+          initial-state
+          [(event "AHELLO^") (event "A BYE!^")])
+        => {:buffer ["HELLO BYE!"]
+            :cursor {:x 10 :y 0}}))
 
 ;; how to use
 ;; (reduce (fn [acc ele] (process acc ele)) state [event-append-end-of-line event-insert])
