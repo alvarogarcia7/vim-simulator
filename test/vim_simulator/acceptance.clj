@@ -1,31 +1,17 @@
-(ns vim-simulator.core-test
+
+
+(ns vim-simulator.acceptance
   (:require [clojure.test :refer :all]
             [vim-simulator.core :refer :all]
             [midje.sweet :refer :all]))
-
-(def state
-  {:buffer ["0123456" "1234567"]
-   :cursor {:x 2 :y 0}})
-
-(def event-insert
-  {:vim-simulator/event "iHELLO^"})
-
-(def event-undo
-  {:vim-simulator/event "u"})
-
-(def event-append
-  {:vim-simulator/event "A at the end^"})
-
-(defn event [description]
-  {:vim-simulator/event description})
 
 (defn
   to-command
   [event]
   (let [first-letter (first (:vim-simulator/event event))]
     (if (= \u first-letter)
-        {:vim-simulator/command :vim-simulator/undo
-         :vim-simulator/payload (rest (:vim-simulator/event event))}
+      {:vim-simulator/command :vim-simulator/undo
+       :vim-simulator/payload (rest (:vim-simulator/event event))}
       (letfn [(extract-payload
                 [description]
                 (apply str (butlast (rest description))))]
@@ -62,11 +48,18 @@
     to-command
     (apply-to state)))
 
-(defn
-  process-multiple
-  [state events]
-  (reduce process state events))
-
+(defn simulate
+  [description state event expected]
+  (let [next-state (process state {:vim-simulator/event event})]
+    (facts
+      description
+      (fact :acceptance
+            "adds to the buffer"
+            (:buffer next-state) => (:buffer expected))
+      (fact :acceptance
+            "modifies the cursor"
+            (:cursor next-state) => (:cursor expected)))
+    next-state))
 
 (defn
   state-gen
@@ -74,22 +67,41 @@
   {:buffer buffer
    :cursor cursor})
 
-
 (facts
-  "unit tests about parsing events"
-  (fact :unit
-    "about undo"
-    (to-command event-undo) => {:vim-simulator/command :vim-simulator/undo
-                         :vim-simulator/payload ()}
+  "acceptance tests about processing events"
+  (facts
+    "about append"
+    (simulate
+      "append on an empty buffer"
+      (state-gen ["" ""]
+                 {:x 0 :y 0})
+      "AHELLO^"
+      (state-gen ["HELLO" ""]
+                 {:x 5 :y 0}))
+    (simulate
+      "append on a full buffer"
+      (state-gen ["1234" "aaaa"]
+                 {:x 0 :y 0})
+      "AHELLO^"
+      (state-gen ["1234HELLO" "aaaa"]
+                 {:x 9 :y 0}))
     ))
 
 (facts
-  "processing multiple events"
-  (fact :unit
-    "example 1"
-    (process-multiple (state-gen [""] {:x 0 :y 0}) [(event "AHELLO^") (event "A BYE!^")] ) => {:buffer ["HELLO BYE!"]
-                                                                               :cursor {:x 10 :y 0}}
-
+  "acceptance tests about events that affect events"
+  (facts
+    "about undo"
+    (simulate "undo"
+              (simulate
+                "append on an empty buffer"
+                (state-gen ["" ""]
+                           {:x 0 :y 0})
+                "AHELLO^"
+                (state-gen ["HELLO" ""]
+                           {:x 5 :y 0}))
+              "u"
+              (state-gen ["" ""]
+                         {:x 0 :y 0}))
     ))
 
 ;; how to use
