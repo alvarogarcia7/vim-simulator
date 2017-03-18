@@ -70,7 +70,17 @@
           initial-state
           [(event "AHELLO^") (event "A BYE!^")])
         => {:buffer ["HELLO BYE!"]
-            :cursor {:x 10 :y 0}}))
+            :cursor {:x 10 :y 0}})
+
+  (fact :unit
+        "undo the last two commands"
+        (process-multiple
+          initial-state
+          [(event "AHELLO^") (event "A BYE!^") (event "u") (event "u")])
+        => {:buffer [""], :cursor {:x 0, :y 0}}
+
+        ))
+
 
 ;; how to use
 ;; (reduce (fn [acc ele] (process acc ele)) state [event-append-end-of-line event-insert])
