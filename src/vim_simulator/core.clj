@@ -28,7 +28,8 @@
 (defn
   pairs
   [coll]
-  (first (reduce (fn [[acc prev] ele] [(conj acc [prev ele]) ele]) [[] (first coll)] (rest coll))))
+  ; from Functional programming patterns in scala and clojure, chapter 'tail recursion', page 145
+  (partition 2 (interleave coll (rest coll))))
 
 (defn-
   flat1
