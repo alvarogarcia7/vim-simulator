@@ -4,10 +4,6 @@
             [vim-simulator.common :refer :all]
             [midje.sweet :refer :all]))
 
-(def state
-  (state-gen ["0123456" "1234567"]
-             {:x 2 :y 0}))
-
 (def initial-state
   (state-gen [""] {:x 0 :y 0}))
 
@@ -16,11 +12,6 @@
    :insert (command "iHELLO^")
    :append (command "A at the end^")
    :redo   (command "r")})
-
-(def events
-  {:insert (event (:insert commands))
-   :append (event (:append commands))
-   })
 
 (facts
   "unit tests about parsing events"
