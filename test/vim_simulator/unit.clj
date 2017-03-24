@@ -11,24 +11,24 @@
 (def initial-state
   (state-gen [""] {:x 0 :y 0}))
 
-(def events
-  {:undo   (event "u")
-   :insert (event "iHELLO^")
-   :append (event "A at the end^")
-   :redo   (event "r")})
-
 (def commands
-  {:insert (command (:insert events))
-   :append (command (:append events))
+  {:undo   (command "u")
+   :insert (command "iHELLO^")
+   :append (command "A at the end^")
+   :redo   (command "r")})
+
+(def events
+  {:insert (event (:insert commands))
+   :append (event (:append commands))
    })
 
 (facts
   "unit tests about parsing events"
   (fact :unit
         "about undo"
-        (command (:undo events))
-        => {:vim-simulator/command :vim-simulator/undo
-                                    :vim-simulator/payload ()}
+        (event (:undo commands))
+        => {:vim-simulator/event   :vim-simulator/undo
+            :vim-simulator/payload ()}
         ))
 
 (facts
@@ -37,7 +37,7 @@
         "example 1"
         (process-multiple
           initial-state
-          [(event "AHELLO^") (event "A BYE!^")])
+          [(command "AHELLO^") (command "A BYE!^")])
         => {:buffer ["HELLO BYE!"]
             :cursor {:x 10 :y 0}})
 
@@ -45,7 +45,7 @@
         "undo the last two commands"
         (process-multiple
           initial-state
-          [(event "AHELLO^") (event "A BYE!^") (event "u") (event "u")])
+          [(command "AHELLO^") (command "A BYE!^") (command "u") (command "u")])
         => {:buffer [""], :cursor {:x 0, :y 0}}
 
         ))

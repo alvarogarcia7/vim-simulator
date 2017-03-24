@@ -6,8 +6,8 @@
             [midje.sweet :refer :all]))
 
 (defn simulate
-  [description state events expected]
-  (let [final-state (process-multiple state (map event events))]
+  [description state commands expected]
+  (let [final-state (process-multiple state (map command commands))]
     (facts
       description
       (fact :acceptance
@@ -30,7 +30,7 @@
       (state-gen ["HELLO" ""]
                  {:x 5 :y 0}))
     (simulate
-      "append on a full buffer"
+      "append on an existing buffer"
       (state-gen ["1234" "aaaa"]
                  {:x 0 :y 0})
       ["AHELLO^"]
@@ -39,7 +39,7 @@
     ))
 
 (facts
-  "acceptance tests about events that affect events"
+  "acceptance tests about command that affect events"
   (facts
     "about redo"
     (simulate

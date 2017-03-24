@@ -6,5 +6,5 @@
   {:buffer buffer
    :cursor cursor})
 
-(defn event [description]
-  {:vim-simulator/event description})
+(defn command [description]
+  {:vim-simulator/command description})
